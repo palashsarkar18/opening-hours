@@ -1,0 +1,7 @@
+[flake8]
+ignore =
+     # W503: Line break occurred before a binary operator.
+    W503
+exclude = venv, data
+
+max-line-length = 100
