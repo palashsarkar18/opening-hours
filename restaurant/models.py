@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import List
 from dacite import from_dict, exceptions
-from utils import convert_seconds_to_hours
+from .utils import convert_seconds_to_hours
 
 
 @dataclass
