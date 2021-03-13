@@ -60,7 +60,7 @@ def convert_to_human_readable(opening_hours_obj: OpeningHours) -> str:
     for index in range(0, len(days)):
         day = days[index]
         time_list = getattr(opening_hours_obj, day)
-        time_list.sort(key=lambda timing: timing.value)
+        print(f"time_list 1 : {time_list}")
         if len(time_list) == 1 and not time_list[0].type:
             pass
         elif len(time_list) == 1 and time_list[0].type == "close":
@@ -79,7 +79,6 @@ def convert_to_human_readable(opening_hours_obj: OpeningHours) -> str:
                                                      time_list,
                                                      getattr(opening_hours_obj,
                                                              days[index + 1])[0])
-    # output = output[:-1]
     return output
 
 
@@ -94,8 +93,9 @@ def process_opening_hours_on_a_day(day: str,
     :return: Human readable string for the specific day
     """
     day_output = f"{day.capitalize()}:"
+    time_list.sort(key=lambda timing: timing.value)
+    next_expected_type = "close"
     for j in range(0, len(time_list)):
-        next_expected_type = ""
         time_obj = time_list[j]
         if j == 0 and time_obj.type == "close":
             pass
@@ -103,13 +103,14 @@ def process_opening_hours_on_a_day(day: str,
             raise ValueError(f"Two consecutive {time_obj.type}")
         elif time_obj.type == "close":
             day_output += f" - {time_obj.convert_epoch_to_human_readable()},"
-            next_expected_type = "open"
+            next_expected_type = time_obj.type
         elif j == len(time_list) - 1 \
                 and time_list[j].type == "open" \
                 and next_day_first_time_info is not None \
                 and next_day_first_time_info.type == "close":
             day_output += f" {time_obj.convert_epoch_to_human_readable()} - " \
                           f"{next_day_first_time_info.convert_epoch_to_human_readable()},"
+            next_expected_type = time_obj.type
         elif j == len(time_list) - 1 \
                 and time_list[j].type == "open" \
                 and next_day_first_time_info is None:
@@ -120,7 +121,7 @@ def process_opening_hours_on_a_day(day: str,
                              f"but no such closing time specified.")
         elif time_obj.type == "open":
             day_output += f" {time_obj.convert_epoch_to_human_readable()}"
-            next_expected_type = "close"
+            next_expected_type = time_obj.type
         else:
             raise ValueError(f"Wrong type {time_obj.type} specified on {day}")
     day_output = day_output[:-1]
