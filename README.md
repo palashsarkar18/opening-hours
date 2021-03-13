@@ -78,8 +78,12 @@ Sunday: 9 PM - 1 AM
   values.
 * The `OpeningHours` class comprises days of the week as attributes. Each day comprises list of `TimeInfo` objects.
     * If a day contains empty list, this implies the restaurant is closed on that day.
-    * If a day contains on `TimeInfo` object with default values, this implies that the restaurant has no 
-      information on that day.
+    * If a day contains a list of only one `TimeInfo` object with default values, this implies that 
+      the restaurant has no information on that day.
+    * The array of opening hours in JSON structure is sorted in ascending order based on the list 
+      of TimeInfo objects' `value`.
+* The server checks if each opening time is followed by a closing time, either on the same day, 
+    or the next day. Otherwise, the server produces an error message.
 
 ### Test
 * Run test with `pytest`
@@ -114,35 +118,8 @@ Sunday: 12 PM - 9 PM
 ```
 
 ### Thoughts about JSON structure
-Current JSON format is okay for storing and processing the JSON data. Here are my thoughts:
 
-* Use of [dataclasses](https://docs.python.org/3.8/library/dataclasses.html) with 
-  [dacite](https://pypi.org/project/dacite/) enables mapping of the specified JSON structure into a nested object.
-    * `TimeInfo` Class: 
-      * The `{"type": <open / close>>,"value": UNIX time}` is mapped to `TimeInfo` object.
-      * `type` and `value` are of datatypes string and integer respectively to match the datatype specified in JSON.
-      * The `dacite` module takes care of data type errors in JSON.
-      * Default values are specified for `TimeInfo`. Reason for this is explained below
-    
-    * `OpeningHours` Class:
-      * Days of the week defined in JSON structure is mapped to an `OpeningHours` objects.
-      * The attributes are defined in the oder monday/tuesday/.../saturday/sunday. 
-          * This takes care of an unordered JSON data.
-          * [PEP 520](https://www.python.org/dev/peps/pep-0520/) preserves class attribute definition order.
-            Hence OpeningHours' `__dict__.keys()` always provide the days in order, which helps in
-            evaluating closing time after midnight.
-      * Each attribute contains list of `TimeInfo` objects.
-        * The JSON data with empty array for a day is translated to an empty list for that day in `OpeningHours`
-          class, implying the restaurant is closed on that day. 
-        * If a day is missing in the JSON data, the `OpeningHours` object is initialized with a list comprising 
-          one `TimeInfo` object with default value. Hence if this condition is met on a day attribute of 
-          `OpeningHours` object, the server interprets that no opening timing is provided for that day.
-          
-* The array of opening hours in JSON structure is easily sorted in ascending order based on its `value` in the server. 
-  * The server checks if each opening time is followed by a closing time, either on the same day, 
-    or the next day. Otherwise, the server produces an error message.
-    
-Perhaps an alternative and shorter JSON structure that might be better is this:
+An alternative and shorter JSON structure that might be better is this:
 ```
 {
   "friday": [
@@ -178,5 +155,14 @@ class TimeInfo:
     open: int = -1
     close: int = -1
 ```
-A similar processing steps, as is used here, could be undertaken to convert the proposal 
-JSON data to human-readable opening hours.
+* Use of [dataclasses](https://docs.python.org/3.8/library/dataclasses.html) with 
+  [dacite](https://pypi.org/project/dacite/) enables mapping of the proposed JSON structure into a nested object.
+* The `dacite` module takes care of data type errors in JSON.
+* Processing steps are similar to what has been used here to convert the proposed JSON data 
+  to human-readable opening hours.
+* The attributes for `OpeningHours` dataclass remains the same in the same oder 
+  monday/tuesday/.../saturday/sunday.
+    * This takes care of an unordered JSON data.
+    * [PEP 520](https://www.python.org/dev/peps/pep-0520/) preserves class attribute definition order. 
+      Hence OpeningHours' `__dict__.keys()` always provide the days in order, which helps in
+      evaluating closing time after midnight.
