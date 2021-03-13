@@ -1,7 +1,7 @@
 ## Restaurant's Opening Hours
 
 ### Introduction
-The purpose of this project is to build an HTTP API that takes a restaurant's opening hours in a specific JSON structure
+This project aims at building an HTTP API that takes a restaurant's opening hours in a specific JSON structure
 and converts the hours to a human-readable format.
 
 ### Setup
@@ -69,7 +69,6 @@ Saturday: 9 PM - 2 AM
 Sunday: 9 PM - 1 AM
 ```
 
-
 ### Data Structure
 * A nested dataclass (class with `@dataclass` decorator), namely `OpeningHours` comprising `TimeInfo` objects, 
   is used for mapping the JSON data into a Python object.
@@ -94,4 +93,21 @@ python -m flake8
 ```
 pip install mypy
 mypy <path to file>
+```
+
+### Curl Example
+```
+curl -X POST -H "Content-Type: application/json" \
+-d @full_example.json \
+127.0.0.1:5000/restaurant
+```
+Response:
+```
+Monday: Closed
+Tuesday: 10 AM - 6 PM
+Wednesday: Closed
+Thursday: 10 AM - 6 PM
+Friday: 10 AM - 1 AM
+Saturday: 10 AM - 1 AM
+Sunday: 12 PM - 9 PM
 ```
