@@ -84,7 +84,7 @@ def test_opening_hours_human_readable():
             "sunday": [{"type": "close", "value": 7200},
                        {"type": "open", "value": 75600}]}
     opening_hours_obj = initialize_opening_hours(data)
-    expected_result = "Monday: 9 AM - 12 Noon, 3 PM - 8 PM\n" \
+    expected_result = "Monday: 9 AM - 12 PM, 3 PM - 8 PM\n" \
                       "Tuesday: 9:30 AM - 8 PM\n" \
                       "Wednesday: Closed\n" \
                       "Friday: 9 PM - 2 AM\n" \
