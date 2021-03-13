@@ -100,7 +100,7 @@ def process_opening_hours_on_a_day(day: str,
         if j == 0 and time_obj.type == "close":
             pass
         elif time_obj.type == next_expected_type:
-            raise ValueError(f"Two consecutive {time_obj.type}")
+            raise ValueError(f"Two consecutive {time_obj.type} time.")
         elif time_obj.type == "close":
             day_output += f" - {time_obj.convert_epoch_to_human_readable()},"
             next_expected_type = time_obj.type
@@ -123,7 +123,7 @@ def process_opening_hours_on_a_day(day: str,
             day_output += f" {time_obj.convert_epoch_to_human_readable()}"
             next_expected_type = time_obj.type
         else:
-            raise ValueError(f"Wrong type {time_obj.type} specified on {day}")
+            raise ValueError(f"Wrong type {time_obj.type} specified on {day}.")
     day_output = day_output[:-1]
     day_output += "\n"
     return day_output
