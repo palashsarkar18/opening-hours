@@ -6,6 +6,7 @@ from .utils import convert_seconds_to_hours
 OPEN_KEY = "open"
 CLOSE_KEY = "close"
 
+
 @dataclass
 class TimeInfo:
     type: str = ""
