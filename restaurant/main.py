@@ -15,3 +15,6 @@ def evaluate_opening_hours():
     except ValueError as e:
         status_code = 400
         return make_response(e.__str__(), status_code)
+    except Exception as e:
+        status_code = 500
+        return make_response(e.__str__(), status_code)
