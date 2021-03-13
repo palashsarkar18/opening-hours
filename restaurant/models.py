@@ -79,7 +79,7 @@ def convert_to_human_readable(opening_hours_obj: OpeningHours) -> str:
                                                      time_list,
                                                      getattr(opening_hours_obj,
                                                              days[index + 1])[0])
-    output = output[:-1]
+    # output = output[:-1]
     return output
 
 

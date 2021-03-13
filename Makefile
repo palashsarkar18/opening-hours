@@ -1,5 +1,5 @@
 run:
-	FLASK_ENV=development FLASK_APP=standings/main.py flask run
+	FLASK_ENV=development FLASK_APP=restaurant/main.py flask run
 
 test:
 	pytest

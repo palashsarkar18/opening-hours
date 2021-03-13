@@ -89,7 +89,7 @@ def test_opening_hours_human_readable():
                       "Wednesday: Closed\n" \
                       "Friday: 9 PM - 2 AM\n" \
                       "Saturday: 9 PM - 2 AM\n" \
-                      "Sunday: 9 PM - 1 AM"
+                      "Sunday: 9 PM - 1 AM\n"
     assert convert_to_human_readable(opening_hours_obj) == expected_result
 
 
