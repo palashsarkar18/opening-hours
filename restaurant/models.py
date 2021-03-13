@@ -60,13 +60,16 @@ def convert_to_human_readable(opening_hours_obj: OpeningHours) -> str:
     for index in range(0, len(days)):
         day = days[index]
         time_list = getattr(opening_hours_obj, day)
-        print(f"time_list 1 : {time_list}")
+        print(f"{day}: {time_list}")
         if len(time_list) == 1 and not time_list[0].type:
             pass
         elif len(time_list) == 1 and time_list[0].type == "close":
             pass
         elif len(time_list) == 0:
             output += f"{day.capitalize()}: Closed\n"
+        elif index == len(days) - 1 \
+                and len(getattr(opening_hours_obj, days[0])) == 0:
+            output += process_opening_hours_on_a_day(day, time_list)
         elif index == len(days) - 1:
             output += process_opening_hours_on_a_day(day,
                                                      time_list,

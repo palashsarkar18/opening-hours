@@ -12,12 +12,10 @@ def convert_seconds_to_hours(ts: int) -> str:
     hours = ts_human.hour
     minutes = ts_human.minute
     seconds = ts_human.second
-    if ts > 43200:
+    if ts >= 43200:
         am_pm = "PM"
-    elif ts < 43200:
-        am_pm = "AM"
     else:
-        am_pm = "Noon"
+        am_pm = "AM"
     if hours > 12:
         hours = hours - 12
     minutes_str = "0" + str(minutes) if minutes < 10 else str(minutes)
