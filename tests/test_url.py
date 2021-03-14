@@ -1,3 +1,4 @@
+import json
 from restaurant.main import app
 
 
@@ -45,20 +46,8 @@ def test_fetch_human_readable_form_full_example():
     """
     Test API with the full example provided in assignment
     """
-    data = {
-        "monday": [],
-        "tuesday": [{"type": "open", "value": 36000},
-                    {"type": "close", "value": 64800}],
-        "wednesday": [],
-        "thursday": [{"type": "open", "value": 36000},
-                     {"type": "close", "value": 64800}],
-        "friday": [{"type": "open", "value": 36000}],
-        "saturday": [{"type": "close", "value": 3600},
-                     {"type": "open", "value": 36000}],
-        "sunday": [{"type": "close", "value": 3600},
-                   {"type": "open", "value": 43200},
-                   {"type": "close", "value": 75600}]
-    }
+    file = open("full_example.json")
+    data = json.load(file)
     expected_result = "Monday: Closed\n" \
                       "Tuesday: 10 AM - 6 PM\n" \
                       "Wednesday: Closed\n" \
