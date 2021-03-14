@@ -5,8 +5,8 @@ This project aims at building an HTTP API that takes a restaurant's opening hour
 and converts the time to a human-readable format.
 
 ### Setup
-* Clone the project. Note that the python version is 3.8.2, as specified in [.python-version](.python_version) 
-  file.
+* Clone the project. 
+* Use the python version specified in [.python-version](/.python-version) file.
 * Initialize development environment `source ./init-project`.
 * Start the server `make run`.
 
@@ -160,7 +160,7 @@ class TimeInfo:
 * The `dacite` module takes care of data type errors in JSON.
 * Processing steps are similar to what has been used here to convert the proposed JSON data 
   to human-readable opening hours.
-* The attributes for `OpeningHours` dataclass remains the same in the same oder 
+* The attributes for `OpeningHours` dataclass remains in the same oder 
   monday/tuesday/.../saturday/sunday.
     * This takes care of an unordered JSON data.
     * [PEP 520](https://www.python.org/dev/peps/pep-0520/) preserves class attribute definition order. 
