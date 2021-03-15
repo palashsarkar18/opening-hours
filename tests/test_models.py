@@ -107,10 +107,11 @@ def test_define_time_info_object_with_error():
     """
     Test for field error (typo/mistake) in TimeInfo object
     """
-    time_dict = {"tyep": "close", "value": 4950}
-    with pytest.raises(TypeError):
+    time_dict = {"typw": "close", "value": 4950}
+    with pytest.raises(TypeError) as e:
         time_info_obj = TimeInfo(**time_dict)
         time_info_obj.check_value_within_limit()
+    assert str(e.value) == "__init__() got an unexpected keyword argument 'typw'"
 
 
 def test_define_time_info_object_with_error_value_exceed_max():
@@ -119,6 +120,7 @@ def test_define_time_info_object_with_error_value_exceed_max():
     :return:
     """
     time_dict = {"type": "close", "value": 86499}
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError) as e:
         time_info_obj = TimeInfo(**time_dict)
         time_info_obj.check_value_within_limit()
+    assert str(e.value) == "Wrong time value 86499 specified. It exceeds the maximum value."
