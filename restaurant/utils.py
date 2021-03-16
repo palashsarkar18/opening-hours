@@ -4,9 +4,9 @@ import pytz
 
 def convert_seconds_to_hours(ts: int) -> str:
     """
-    Converts UNIX time to human readable hours (hh or hh:mm)
+    Converts UNIX time to human readable hours (hh or hh:mm or hh:mm:ss)
     :param ts: UNIX time in milliseconds
-    :return: Time in hh or hh:mm
+    :return: Time in hh or hh:mm or hh:mm:ss
     """
     ts_human = datetime.datetime.fromtimestamp(ts, pytz.utc)
     hours = ts_human.hour

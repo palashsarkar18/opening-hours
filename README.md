@@ -5,14 +5,14 @@ This project aims at building an HTTP API that takes a restaurant's opening hour
 and converts the time to a human-readable format.
 
 ### Setup
-* Clone the project. 
+* Clone the project (or decompress the zip file). 
 * Use the python version specified in [.python-version](/.python-version) file.
 * Initialize development environment `source ./init-project`.
 * Start the server `make run`.
 
 
 ### API input
-Input JSON consist of keys indicating days of a week and corresponding opening hours as values. One JSON file includes data for one restaurant.
+Input JSON consist of keys indicating days of the week and corresponding opening hours as values. 
 ```
 {
     <dayofweek>: <opening hours> 
@@ -25,7 +25,7 @@ where,
 <dayofweek>: monday / tuesday / wednesday / thursday / friday / saturday / sunday 
 <opening hours>: an array of objects containing opening hours.
 ```
-Each `<opening hours>` object consist of two keys:
+Each `<opening hours>` consist of two keys:
 * `type`: `open` or `close
 * `value`: opening / closing time as UNIX time (1.1.1970 as a date),
 e.g. 32400 = 9 AM, 37800 = 10.30 AM, max value is 86399 = 11.59:59 PM
@@ -71,13 +71,13 @@ Sunday: 9 PM - 1 AM
 ```
 
 ### Data Structure
-* A nested dataclass (class with `@dataclass` decorator), namely `OpeningHours` comprising `TimeInfo` objects, 
-  is used for mapping the JSON data into a Python object.
-* `dacite` module is used for the mapping purpose.
-* The `TimeInfo` dataclass comprises `type` and `value` attributes, with empty string (= `""`) and -1 as default 
-  values.
+* A nested dataclass, namely `OpeningHours` comprising list of `TimeInfo` objects, is used for 
+  mapping the JSON data into a Python object.
+* The `dacite` module is used for creating dataclasses from dictionaries.
+* The `TimeInfo` dataclass comprises `type` and `value` attributes, with empty string (= `""`) 
+  and -1 as default values respectively.
 * The `OpeningHours` class comprises days of the week as attributes. Each day comprises list of `TimeInfo` objects.
-    * If a day contains empty list, this implies the restaurant is closed on that day.
+    * A day containing empty list implies the restaurant is closed on that day.
     * If a day contains a list of only one `TimeInfo` object with default values, this implies that 
       the restaurant has no information on that day.
     * The array of opening hours in JSON structure is sorted in ascending order based on the list 
@@ -155,14 +155,14 @@ class TimeInfo:
     open: int = -1
     close: int = -1
 ```
-* Use of [dataclasses](https://docs.python.org/3.8/library/dataclasses.html) with 
-  [dacite](https://pypi.org/project/dacite/) enables mapping of the proposed JSON structure into a nested object.
+* Use of dataclasses with dacite module enables mapping of the above proposed 
+  dictionary into a nested object.
 * The `dacite` module takes care of data type errors in JSON.
 * Processing steps are similar to what has been used here to convert the proposed JSON data 
   to human-readable opening hours.
 * The attributes for `OpeningHours` dataclass remains in the same oder 
   monday/tuesday/.../saturday/sunday.
     * This takes care of an unordered JSON data.
-    * [PEP 520](https://www.python.org/dev/peps/pep-0520/) preserves class attribute definition order. 
+    * PEP 520 preserves class attribute definition order. 
       Hence OpeningHours' `__dict__.keys()` always provide the days in order, which helps in
       evaluating closing time after midnight.

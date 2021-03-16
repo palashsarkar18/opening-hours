@@ -6,6 +6,11 @@ app = Flask(__name__)
 
 @app.route("/restaurant", methods=['GET', 'POST'])
 def evaluate_opening_hours():
+    """
+    API call for opening hours
+    :return: Human-readable opening hour format with status code = 200;
+    Error message with status code = 400 | 500
+    """
     try:
         request_data = request.get_json()
         opening_hours = initialize_opening_hours(request_data)
