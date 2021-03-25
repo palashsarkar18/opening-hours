@@ -26,7 +26,7 @@ where,
 <opening hours>: an array of objects containing opening hours.
 ```
 Each `<opening hours>` consist of two keys:
-* `type`: `open` or `close
+* `type`: `open` or `close`
 * `value`: opening / closing time as UNIX time (1.1.1970 as a date),
 e.g. 32400 = 9 AM, 37800 = 10.30 AM, max value is 86399 = 11.59:59 PM
   
@@ -88,16 +88,15 @@ Sunday: 9 PM - 1 AM
 ### Test
 * Run test with `pytest`
 ```
-pytest
+make test
 ```
 * `flake8` is used for style guide
 ```
-python -m flake8
+make lint
 ```
 * `mypy` is used for type checking
 ```
-pip install mypy
-mypy <path to file>
+make type_check
 ```
 
 ### Curl Example

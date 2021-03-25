@@ -2,6 +2,6 @@
 ignore =
      # W503: Line break occurred before a binary operator.
     W503
-exclude = venv, data
+exclude = venv
 
 max-line-length = 100

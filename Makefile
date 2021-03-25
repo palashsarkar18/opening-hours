@@ -6,3 +6,7 @@ test:
 
 lint:
 	flake8
+
+type_check:
+	mypy restaurant
+	mypy tests
