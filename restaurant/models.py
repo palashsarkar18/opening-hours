@@ -99,23 +99,23 @@ def process_opening_hours_on_a_day(day: str,
     """
     day_output = f"{day.capitalize()}:"
     time_list.sort(key=lambda timing: timing.value)
-    next_expected_type = CLOSE_KEY
+    next_unexpected_type = CLOSE_KEY
     for j in range(0, len(time_list)):
         time_obj = time_list[j]
         if j == 0 and time_obj.type == CLOSE_KEY:
             pass
-        elif time_obj.type == next_expected_type:
+        elif time_obj.type == next_unexpected_type:
             raise ValueError(f"Two consecutive {time_obj.type} time.")
         elif time_obj.type == CLOSE_KEY:
             day_output += f" - {time_obj.convert_epoch_to_human_readable()},"
-            next_expected_type = time_obj.type
+            next_unexpected_type = time_obj.type
         elif j == len(time_list) - 1 \
                 and time_list[j].type == OPEN_KEY \
                 and next_day_first_time_info is not None \
                 and next_day_first_time_info.type == CLOSE_KEY:
             day_output += f" {time_obj.convert_epoch_to_human_readable()} - " \
                           f"{next_day_first_time_info.convert_epoch_to_human_readable()},"
-            next_expected_type = time_obj.type
+            next_unexpected_type = time_obj.type
         elif j == len(time_list) - 1 \
                 and time_list[j].type == OPEN_KEY \
                 and next_day_first_time_info is None:
@@ -126,7 +126,7 @@ def process_opening_hours_on_a_day(day: str,
                              f"but no such closing time specified.")
         elif time_obj.type == OPEN_KEY:
             day_output += f" {time_obj.convert_epoch_to_human_readable()}"
-            next_expected_type = time_obj.type
+            next_unexpected_type = time_obj.type
         else:
             raise ValueError(f"Wrong type {time_obj.type} specified on {day}.")
     day_output = day_output[:-1]
