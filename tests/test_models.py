@@ -64,42 +64,29 @@ def test_process_opening_hours_a_day():
     assert day_value == expected_value
 
 
-def test_opening_hours_human_readable():
-    """
-    Test for converting a json dict into human readable format
-    """
-    data = {"monday": [{"type": "close", "value": 3600},
-                       {"type": "open", "value": 32400},
-                       {"type": "open", "value": 54000},
-                       {"type": "close", "value": 43200},
-                       {"type": "close", "value": 72000},
-                       # {"type": "close", "value": 75600}
-                       ],
-            "tuesday": [{"type": "open", "value": 34200},
-                        {"type": "close", "value": 72000}],
-            "wednesday": [],
-            "friday": [{"type": "open", "value": 75600}],
-            "saturday": [{"type": "close", "value": 7200},
-                         {"type": "open", "value": 75600}],
-            "sunday": [{"type": "close", "value": 7200},
-                       {"type": "open", "value": 75600}]}
-    opening_hours_obj = initialize_opening_hours(data)
-    expected_result = "Monday: 9 AM - 12 PM, 3 PM - 8 PM\n" \
-                      "Tuesday: 9:30 AM - 8 PM\n" \
-                      "Wednesday: Closed\n" \
-                      "Friday: 9 PM - 2 AM\n" \
-                      "Saturday: 9 PM - 2 AM\n" \
-                      "Sunday: 9 PM - 1 AM\n"
-    assert convert_to_human_readable(opening_hours_obj) == expected_result
-
-
-def test_opening_hours_human_readable_empty_json():
-    """
-    Test for calculating human readable timetable if json input is empty.
-    """
-    data = {}
-    opening_hours_obj = initialize_opening_hours(data)
-    expected_result = ""
+@pytest.mark.parametrize("test_data, expected_result", [({}, ""), ({"monday": [{"type": "close", "value": 3600},
+                                                                               {"type": "open", "value": 32400},
+                                                                               {"type": "open", "value": 54000},
+                                                                               {"type": "close", "value": 43200},
+                                                                               {"type": "close", "value": 72000},
+                                                                               # {"type": "close", "value": 75600}
+                                                                               ],
+                                                                    "tuesday": [{"type": "open", "value": 34200},
+                                                                                {"type": "close", "value": 72000}],
+                                                                    "wednesday": [],
+                                                                    "friday": [{"type": "open", "value": 75600}],
+                                                                    "saturday": [{"type": "close", "value": 7200},
+                                                                                 {"type": "open", "value": 75600}],
+                                                                    "sunday": [{"type": "close", "value": 7200},
+                                                                               {"type": "open", "value": 75600}]},
+                                                                   "Monday: 9 AM - 12 PM, 3 PM - 8 PM\n" \
+                                                                   "Tuesday: 9:30 AM - 8 PM\n" \
+                                                                   "Wednesday: Closed\n" \
+                                                                   "Friday: 9 PM - 2 AM\n" \
+                                                                   "Saturday: 9 PM - 2 AM\n" \
+                                                                   "Sunday: 9 PM - 1 AM\n")])
+def convert_to_human_readable_test(test_data, expected_result):
+    opening_hours_obj = initialize_opening_hours(test_data)
     assert convert_to_human_readable(opening_hours_obj) == expected_result
 
 
